@@ -223,7 +223,7 @@ const CANTICLES = [
       blurb:"A golden ladder rises beyond sight, and contemplatives, Peter Damian and Benedict, climb it slowly, explaining that even their longing is measured. Dante looks up and realizes Beatrice has grown more beautiful again." },
     { name:"The Eighth Sphere: The Fixed Stars", epithet:"Stars", motif:"stars",
       blurb:"Triumphant in the heaven of stars, Dante sees Christ and Mary and Gabriel in victory. Peter, James, and John examine him on faith, hope, and love, and Peter's own throne in heaven appears empty below, dark with the corruption of his successors." },
-    { name:"The Ninth Sphere: The Primum Mobile", motif:"wheel",
+    { name:"The Ninth Sphere: The Primum Mobile", epithet:"Primum Mobile", motif:"wheel",
       blurb:"Beyond stars, the pure moving heaven of crystalline light. Beatrice explains the hierarchy of angels, and Dante looks back down to see the whole earth, a small threshing-floor that makes him smile at the world's pettiness." },
     { name:"The Empyrean", epithet:"The Rose of Paradise", motif:"rose",
       blurb:"The tenth heaven is no place but pure light, the mind of God, a vast white rose whose petals are the blessed. Beatrice takes her seat among the exalted, and St. Bernard becomes the pilgrim's guide, praying to the Virgin. Dante looks into the light eternal, and sees the whole universe bound in a single volume, moved by one Love.",
@@ -233,7 +233,7 @@ const CANTICLES = [
       art:{ file:"Par 31.jpg", cap:"Gustave Doré, The Empyrean Rose (Paradiso XXXI)" } }
   ]
 }
-]);
+];
 
 const GALLERY = [
   { file:"Dante Alighieri 1860.jpg", title:"Portrait of Dante", note:"After the fresco in the Bargello, Florence" },
@@ -318,7 +318,7 @@ function updateProgressUI(){
 const app=document.getElementById("app");
 let tab="home";
 
-function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function esc(s){ return String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
 function levelCard(l){
   const done=progress.completed.includes(l.i);
   const here=progress.current===l.i;
