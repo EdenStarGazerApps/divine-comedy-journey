@@ -94,6 +94,17 @@
   .level-quote .en{margin-top:.4rem;color:#e7dcc3;font-size:.95rem}
   .level-quote .attr{margin-top:.5rem;font-size:.72rem;color:#a9966f}
   .level-nav{display:flex;justify-content:space-between;gap:.8rem;margin-top:2rem}
+  /* ---------- QUIZ ---------- */
+  .qcard{border:1px solid #3a2a18;border-radius:12px;padding:1rem 1.1rem;background:rgba(30,20,10,.5);margin-bottom:1rem}
+  .qcard .qtag{font-size:.68rem;letter-spacing:.12em;color:#a9966f;text-transform:uppercase}
+  .qcard .qtext{font-family:var(--font-head);color:var(--light);margin:.25rem 0 .7rem;font-size:1rem}
+  .qopt{display:block;width:100%;text-align:left;background:rgba(20,12,6,.6);border:1px solid #3a2a18;border-radius:999px;color:#cdbfa5;font-family:var(--font-body);font-size:.92rem;padding:.45rem .9rem;margin:.3rem 0;cursor:pointer}
+  .qopt:hover{border-color:var(--gold);color:var(--light)}
+  .qopt.right{background:rgba(201,162,39,.18);border-color:var(--gold);color:var(--gold2)}
+  .qopt.wrong{border-color:#8a3a2a;color:#e08a6a}
+  .qfact{margin-top:.6rem;font-size:.85rem;color:#d8c8a4;font-style:italic;border-left:2px solid var(--gold);padding-left:.6rem}
+  .qscore{display:flex;gap:.8rem;flex-wrap:wrap;margin:1rem 0 1.4rem}
+  .qscore .chip{border:1px solid var(--gold);border-radius:999px;padding:.4rem 1rem;color:var(--gold2);font-family:var(--font-head);font-size:.95rem}
   /* ---------- GALLERY ---------- */
   .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem;margin-top:1.5rem}
   .gitem{border:1px solid #3a2a18;border-radius:12px;overflow:hidden;background:rgba(30,20,10,.5)}
@@ -120,6 +131,7 @@
     <button data-tab="journey">The Journey</button>
     <button data-tab="gallery">Art Gallery</button>
     <button data-tab="music">Music</button>
+    <button data-tab="quiz">Quiz</button>
   </div>
   <div id="progressWrap">
     <div id="progressBar"><div id="progressFill"></div></div>
@@ -152,6 +164,8 @@ const CANTICLES = [
       art:{ file:"Gustave Doré - Dante Alighieri - Inferno - Plate 8 (Canto III - Abandon all hope ye who enter here).jpg", cap:"Gustave Doré, 'Abandon all hope, ye who enter here' (Inferno III)" } },
     { name:"Limbo", epithet:"First Circle", motif:"mist",
       blurb:"A realm of sighs rather than torments: the virtuous unbaptized dwell in a dim noble castle. Homer, Horace, Ovid, and the great ancients honor Dante as one of their own, and here he learns even wisdom has its borders.",
+      quote:{ en:"And more of honor still, much more, they did me, / In that they made me one of their own band; / So that the sixth was I, 'mid so much wit.",
+              attr:"Dante honored by the ancient poets, Inferno IV, in Longfellow's translation" },
       art:{ file:"Gustave Doré - Dante Alighieri - Inferno - Plate 10 (Canto III - Charon herds the sinners onto his boat).jpg", cap:"Gustave Doré, Charon herds the sinners onto his boat (Inferno III)" } },
     { name:"Lust", epithet:"Second Circle", motif:"whirl",
       blurb:"In the howling dark, souls are swept in an endless gale, riders of the storm that mirrors the wind of desire. Minos, the snarling judge, coils his tail to assign each shade its place. Among the blown-about lovers, Francesca da Rimini tells her tale, and Dante faints with pity.",
@@ -160,19 +174,40 @@ const CANTICLES = [
               attr:"Francesca da Rimini's words, Inferno V, in Longfellow's translation" },
       art:{ file:"Gustave Doré - Dante Alighieri - Inferno - Plate 13 (Canto V - Minos).jpg", cap:"Gustave Doré, Minos (Inferno V)" } },
     { name:"Gluttony", epithet:"Third Circle", motif:"rain",
-      blurb:"Cold filthy rain falls without pause on the souls sprawled beneath it, harried by Cerberus, the three-throated worm. Here the gluttonous lie like swine in mire, each drop of water a small eternity of appetite reversed." },
+      blurb:"Cold filthy rain falls without pause on the souls sprawled beneath it, harried by Cerberus, the three-throated worm. Here the gluttonous lie like swine in mire, each drop of water a small eternity of appetite reversed.",
+      quote:{ en:"You citizens were wont to call me Ciacco; / For the pernicious sin of gluttony / I, as thou seest, am battered by this rain.",
+              attr:"Ciacco of Florence, Inferno VI, in Longfellow's translation" },
+      art:{ file:"Inferno Canto 6 - Cerberus (148618330).jpg", cap:"Gustave Doré, Cerberus over the gluttons (Inferno VI)" } },
     { name:"Greed", epithet:"Fourth Circle", motif:"weight",
-      blurb:"Two mobs roll enormous weights in half-circles, crashing into each other and screaming their twin reproaches: 'Why hoard?' and 'Why waste?' Fortune, says Virgil, turns her wheel and needs no blame." },
+      blurb:"Two mobs roll enormous weights in half-circles, crashing into each other and screaming their twin reproaches: 'Why hoard?' and 'Why waste?' Fortune, says Virgil, turns her wheel and needs no blame.",
+      quote:{ en:"Now canst thou, Son, behold the transient farce / Of goods that are committed unto Fortune, / For which the human race each other buffet; / For all the gold that is beneath the moon / Or ever has been, of these weary souls / Could never make a single one repose.",
+              attr:"Virgil on Fortune, Inferno VII, in Longfellow's translation" },
+      art:{ file:"Inferno Canto 7 lines 8-9.jpg", cap:"Gustave Doré, Plutus and the fourth circle (Inferno VII)" } },
     { name:"Wrath", epithet:"Fifth Circle", motif:"swamp",
-      blurb:"The Styx is a black marsh where the wrathful tear at one another on the surface and the sullen bubble below, gurgling their hymn through the mud. At the far bank, the walls of the city of Dis rise red through the fog." },
+      blurb:"The Styx is a black marsh where the wrathful tear at one another on the surface and the sullen bubble below, gurgling their hymn through the mud. At the far bank, the walls of the city of Dis rise red through the fog.",
+      quote:{ en:"As he who listens to some great deceit / That has been done to him, and then resents it, / Such became Phlegyas, in his gathered wrath.",
+              attr:"Inferno VIII, in Longfellow's translation" },
+      art:{ file:"DVinfernoFerryAcrossTheStyx m.jpg", cap:"Gustave Doré, Phlegyas ferrying across the Styx (Inferno VIII)" } },
     { name:"Heresy", epithet:"Sixth Circle", motif:"tomb",
-      blurb:"Inside Dis, a field of open tombs glows like a city of ember-lit hearths. Epicureans, who denied the soul's immortality, lie in chests of fire that will one day be sealed forever. Farinata, unbowed even in death, rises to speak with Dante." },
+      blurb:"Inside Dis, a field of open tombs glows like a city of ember-lit hearths. Epicureans, who denied the soul's immortality, lie in chests of fire that will one day be sealed forever. Farinata, unbowed even in death, rises to speak with Dante.",
+      quote:{ it:"O Tosco che per la città del foco…",
+              en:"O Tuscan, thou who through the city of fire / Goest alive, thus speaking modestly, / Be pleased to stay thy footsteps in this place.",
+              attr:"Farinata degli Uberti, Inferno X, in Longfellow's translation" },
+      art:{ file:"DVinfernoUbertiAddressesDante m.jpg", cap:"Gustave Doré, Farinata rises from his tomb (Inferno X)" } },
     { name:"Violence", epithet:"Seventh Circle", motif:"fire-ring",
-      blurb:"Three rings: a river of boiling blood patrolled by centaurs; a wood where the suicides grow as twisted trees, bleeding when the Harpies break them; and a burning plain where fire falls like snow on the violent against God. The aging Brunetto Latini walks briefly beside his student." },
+      blurb:"Three rings: a river of boiling blood patrolled by centaurs; a wood where the suicides grow as twisted trees, bleeding when the Harpies break them; and a burning plain where fire falls like snow on the violent against God. The aging Brunetto Latini walks briefly beside his student.",
+      quote:{ en:"And he in the midst, who at his breast is gazing, / Is the great Chiron, who brought up Achilles; / That other Pholus is, who was so wrathful.",
+              attr:"Nessus naming the centaurs, Inferno XII, in Longfellow's translation" },
+      art:{ file:"Gustave Doré - The Inferno, Canto 12-1.jpg", cap:"Gustave Doré, The centaurs and the river of blood (Inferno XII)" } },
     { name:"Fraud", epithet:"Eighth Circle, Malebolge", motif:"ditch",
-      blurb:"Ten concentric ditches of stone, an iron funnel of deception: seducers scourged, flatterers drowned in excrement, simonists planted upside down in baptismal holes, fortune-tellers with heads twisted backward, thieves entwined with serpents. Geryon carries the poets down on his patterned back." },
+      blurb:"Ten concentric ditches of stone, an iron funnel of deception: seducers scourged, flatterers drowned in excrement, simonists planted upside down in baptismal holes, fortune-tellers with heads twisted backward, thieves entwined with serpents. Geryon carries the poets down on his patterned back.",
+      quote:{ en:"There is a place in Hell called Malebolge, / Wholly of stone and of an iron color, / As is the circle that around it turns.",
+              attr:"Inferno XVIII, in Longfellow's translation" },
+      art:{ file:"DVinfernoShadeOfThais m.jpg", cap:"Gustave Doré, The flatterers in Malebolge (Inferno XVIII)" } },
     { name:"Treachery", epithet:"Ninth Circle, Cocytus", motif:"ice",
       blurb:"At the earth's very floor, a frozen lake where betrayal locks the soul in ice. Count Ugolino gnaws eternally on the archbishop who starved him. And at the center, vast as a windmill, half-imbedded in ice, Lucifer beats his three faces' wings, the engine of the eternal frost.",
+      quote:{ en:"Thou hast to know I was Count Ugolino, / And this one was Ruggieri the Archbishop; / Now I will tell thee why I am such a neighbor.",
+              attr:"Count Ugolino, Inferno XXXIII, in Longfellow's translation" },
       art:{ file:"Gustave Dore Inferno34.jpg", cap:"Gustave Doré, Lucifer (Inferno XXXIV)" } }
   ]
 },
@@ -183,23 +218,52 @@ const CANTICLES = [
   levels:[
     { name:"The Shore of Antipurgatory", epithet:"Purgatorio I", motif:"shore",
       blurb:"Climbing Lucifer's flanks, the poets emerge to see stars again, and the island-mountain of Purgatory rising from the sea. The guardian Cato, a pagan soul made free, orders them to wash Hell's grime away and gird themselves for ascent.",
+      quote:{ it:"Per correr miglior acque alza le vele / omai la navicella del mio ingegno, / che lascia dietro a sé mar crudele;",
+              en:"To run o'er better waters hoists its sail / The little vessel of my genius now, / That leaves behind itself a sea so cruel; / And of that second kingdom will I sing / Wherein the human spirit doth purge itself, / And to ascend to heaven becometh worthy.",
+              attr:"Purgatorio I, in Longfellow's translation" },
       art:{ file:"Pur 01 dore.jpg", cap:"Gustave Doré, Cato of Utica (Purgatorio I)" } },
     { name:"Pride", epithet:"First Terrace", motif:"weight2",
-      blurb:"Souls, bent beneath boulders, circle slowly and pray the Lord's Prayer in its most humbling line. Carved in the rock are scenes of humility: David dancing before the ark, Trajan and the widow. When pride's weight is gone, the souls straighten and sing." },
+      blurb:"Souls, bent beneath boulders, circle slowly and pray the Lord's Prayer in its most humbling line. Carved in the rock are scenes of humility: David dancing before the ark, Trajan and the widow. When pride's weight is gone, the souls straighten and sing.",
+      quote:{ en:"O ye proud Christians! wretched, weary ones! / Who, in the vision of the mind infirm / Confidence have in your backsliding steps, / Do ye not comprehend that we are worms, / Born to bring forth the angelic butterfly / That flieth unto judgment without screen?",
+              attr:"Purgatorio X, in Longfellow's translation" },
+      art:{ file:"Pur 10.jpg", cap:"Gustave Doré, The prideful beneath their stones (Purgatorio X)" } },
     { name:"Envy", epithet:"Second Terrace", motif:"veil",
-      blurb:"The envious wear haircloth cloaks, eyes sewn shut with wire, leaning on one another like the blind. Voices in the air sing of generosity and of Mary's humility; the terrace's carved example is the widow who gave her two coins." },
+      blurb:"The envious wear haircloth cloaks, eyes sewn shut with wire, leaning on one another like the blind. Voices in the air sing of generosity and of Mary's humility; the terrace's carved example is the widow who gave her two coins.",
+      quote:{ en:"Sapient I was not, although I Sapia / Was called, and I was at another's harm / More happy far than at my own good fortune.",
+              attr:"Sapia the Sienese, Purgatorio XIII, in Longfellow's translation" },
+      art:{ file:"Pur 13.jpg", cap:"Gustave Doré, The envious with sewn eyes (Purgatorio XIII)" } },
     { name:"Wrath", epithet:"Third Terrace", motif:"smoke",
-      blurb:"In acrid smoke that mirrors the blinding fog of rage, souls sing 'Agnus Dei' while visions of gentleness flash before their inner eyes: the martyr Stephen praying for his killers." },
+      blurb:"In acrid smoke that mirrors the blinding fog of rage, souls sing 'Agnus Dei' while visions of gentleness flash before their inner eyes: the martyr Stephen praying for his killers.",
+      quote:{ it:"Lo mondo è cieco, e tu vien ben da esso",
+              en:"Brother, / The world is blind, and sooth thou comest from it! / If this were so, in you would be destroyed / Free will, nor any justice would there be / In having joy for good, or grief for evil.",
+              attr:"Marco Lombardo on free will, Purgatorio XVI, in Longfellow's translation" },
+      art:{ file:"Pur 15.jpg", cap:"Gustave Doré, Purgatorio XV" } },
     { name:"Sloth", epithet:"Fourth Terrace", motif:"run",
-      blurb:"Here souls cure lukewarmness with zeal: they run ceaselessly around the terrace, shouting examples of holy haste and the fate of the dilatory, too late. Two radiant souls, the poet Statius among them, overtake the pilgrims at a bound." },
+      blurb:"Here souls cure lukewarmness with zeal: they run ceaselessly around the terrace, shouting examples of holy haste and the fate of the dilatory, too late. Two radiant souls, the poet Statius among them, overtake the pilgrims at a bound.",
+      quote:{ en:"The soul, which is created apt to love, / Is mobile unto everything that pleases, / Soon as by pleasure she is waked to action.",
+              attr:"Virgil on love, Purgatorio XVIII, in Longfellow's translation" },
+      art:{ file:"Pur 18.jpg", cap:"Gustave Doré, Purgatorio XVIII" } },
     { name:"Avarice", epithet:"Fifth Terrace", motif:"flat",
-      blurb:"The avaricious and the prodigal lie face down, weeping into the dust they worshiped. Nightly, the mountain trembles and all sing 'Gloria in excelsis Deo,' the only Psalm of ascent each soul may lift from the dust." },
+      blurb:"The avaricious and the prodigal lie face down, weeping into the dust they worshiped. Nightly, the mountain trembles and all sing 'Gloria in excelsis Deo,' the only Psalm of ascent each soul may lift from the dust.",
+      quote:{ en:"I am, she sang, I am the Siren sweet / Who mariners amid the main unman, / So full am I of pleasantness to hear. / I drew Ulysses from his wandering way…",
+              attr:"The dream of the Siren, Purgatorio XIX, in Longfellow's translation" },
+      art:{ file:"Pur 19 avari.jpg", cap:"Gustave Doré, The avaricious prostrate (Purgatorio XIX)" } },
     { name:"Gluttony", epithet:"Sixth Terrace", motif:"tree",
-      blurb:"Fruit trees heavy with sweetness the souls may smell but never taste; water that drips from the rock and is never quite enough. Statius explains why he was both avaricious and wasteful, and how the souls grow lean by longing." },
+      blurb:"Fruit trees heavy with sweetness the souls may smell but never taste; water that drips from the rock and is never quite enough. Statius explains why he was both avaricious and wasteful, and how the souls grow lean by longing.",
+      quote:{ en:"Ah, do not look at this dry leprosy… / Which doth my skin discolour, / Nor at default of flesh that I may have.",
+              attr:"Forese Donati, Purgatorio XXIII, in Longfellow's translation" },
+      art:{ file:"Gustave Doré - Purgatorio, Canto 23, The souls of the gluttonous.jpg", cap:"Gustave Doré, The souls of the gluttonous (Purgatorio XXIII)" } },
     { name:"Lust", epithet:"Seventh Terrace", motif:"flame2",
-      blurb:"A wall of fire through which the lustful pass, singing and calling each other's names like armies greeting at night. Dante fears to enter; Virgil tells him that beyond the fire lies Beatrice. Guido Guinicelli and the troubadour Arnaut Daniel pass by, refined." },
+      blurb:"A wall of fire through which the lustful pass, singing and calling each other's names like armies greeting at night. Dante fears to enter; Virgil tells him that beyond the fire lies Beatrice. Guido Guinicelli and the troubadour Arnaut Daniel pass by, refined.",
+      quote:{ it:"Jeu sui Arnaut, que plor e vai chantan; / Consiros vei la passada folor, / E vei jauzen lo jorn qu' esper denan.",
+              en:"So pleases me your courteous demand, / I cannot and I will not hide me from you. / I am Arnaut, who weep and singing go.",
+              attr:"Arnaut Daniel, in Provençal, Purgatorio XXVI; English from Longfellow's translation of the Provençal" },
+      art:{ file:"Pur 25.jpg", cap:"Gustave Doré, Purgatorio XXV" } },
     { name:"The Earthly Paradise", epithet:"Purgatorio XXVIII", motif:"forest",
-      blurb:"The forest opens into an eternal May: a pure stream, a lady gathering flowers and singing, Matelda, who explains that here the Lethe and Eunoë flow. Dante is dipped in Lethe and forgets his sins, then in Eunoë and remembers his good. A pageant of Revelation passes, and Beatrice descends at last, veiled in white." }
+      blurb:"The forest opens into an eternal May: a pure stream, a lady gathering flowers and singing, Matelda, who explains that here the Lethe and Eunoë flow. Dante is dipped in Lethe and forgets his sins, then in Eunoë and remembers his good. A pageant of Revelation passes, and Beatrice descends at last, veiled in white.",
+      quote:{ en:"Here Lethe, as upon the other side / Eunoe, it is called; and worketh not / If first on either side it be not tasted. / This every other savour doth transcend.",
+              attr:"Matelda on the two rivers, Purgatorio XXVIII, in Longfellow's translation" },
+      art:{ file:"Pur 28.jpg", cap:"Gustave Doré, Matelda gathering flowers (Purgatorio XXVIII)" } }
   ]
 },
 {
@@ -208,23 +272,53 @@ const CANTICLES = [
   cls:"c-paradiso",
   levels:[
     { name:"The First Sphere: The Moon", epithet:"Moon", motif:"moon",
-      blurb:"Beatrice gazes at Dante, and they rise into a pearl-white heaven. Here dwell the inconstant, souls who broke vows, their faces like dim glass, serenely content with their lot while explaining that freedom and vows are weighty things." },
+      blurb:"Beatrice gazes at Dante, and they rise into a pearl-white heaven. Here dwell the inconstant, souls who broke vows, their faces like dim glass, serenely content with their lot while explaining that freedom and vows are weighty things.",
+      quote:{ it:"E 'n la sua volontade è nostra pace",
+              en:"And his will is our peace; this is the sea / To which is moving onward whatsoever / It doth create, and all that nature makes.",
+              attr:"Piccarda Donati, Paradiso III, in Longfellow's translation" },
+      art:{ file:"Par 03, Gustave Doré, piccarda.jpg", cap:"Gustave Doré, Piccarda in the sphere of the Moon (Paradiso III)" } },
     { name:"The Second Sphere: Mercury", epithet:"Mercury", motif:"star",
-      blurb:"A sphere of shimmering silver where the ambitious, those who pursued glory, gleam like fish in a bright pool. Justinian, lawgiver of Byzantium, tells the history of the Roman eagle and the mystery of justice." },
+      blurb:"A sphere of shimmering silver where the ambitious, those who pursued glory, gleam like fish in a bright pool. Justinian, lawgiver of Byzantium, tells the history of the Roman eagle and the mystery of justice.",
+      quote:{ it:"Cesare fui, e son Giustiniano",
+              en:"Caesar I was, and am Justinian.",
+              attr:"Justinian, Paradiso VI, in Longfellow's translation" },
+      art:{ file:"Par 05, Gustave Doré.jpg", cap:"Gustave Doré, Paradiso V" } },
     { name:"The Third Sphere: Venus", epithet:"Venus", motif:"rose",
-      blurb:"The heaven of lovers glows like a rose-lit sky. Charles Martel explains how nature's varieties serve providence; the troubadour Folco sings of Rahab, and of how sweet this heaven is to those who loved rightly." },
+      blurb:"The heaven of lovers glows like a rose-lit sky. Charles Martel explains how nature's varieties serve providence; the troubadour Folco sings of Rahab, and of how sweet this heaven is to those who loved rightly.",
+      quote:{ en:"Into this heaven, where ends the shadowy cone / Cast by your world, before all other souls / First of Christ's triumph was she taken up.",
+              attr:"Folco of Marseilles on Rahab, Paradiso IX, in Longfellow's translation" },
+      art:{ file:"Paradise (Paradiso).jpg", cap:"Gustave Doré, Paradiso" } },
     { name:"The Fourth Sphere: The Sun", epithet:"Sun", motif:"sun",
-      blurb:"A wheel of light: Thomas Aquinas, Bonaventure, Albertus Magnus, and Siger circle in two garlands of wisdom, debating the meeting point of philosophy and faith. Here the love of truth is a dance." },
+      blurb:"A wheel of light: Thomas Aquinas, Bonaventure, Albertus Magnus, and Siger circle in two garlands of wisdom, debating the meeting point of philosophy and faith. Here the love of truth is a dance.",
+      quote:{ en:"Francis and Poverty for these two lovers / Take thou henceforward in my speech diffuse. / Their concord and their joyous semblances, / The love, the wonder, and the sweet regard, / They made to be the cause of holy thoughts.",
+              attr:"St. Thomas on Francis of Assisi, Paradiso XI, in Longfellow's translation" },
+      art:{ file:"Gustave Dore XIV.jpg", cap:"Gustave Doré, The choir of the Sun (Paradiso)" } },
     { name:"The Fifth Sphere: Mars", epithet:"Mars", motif:"cross",
-      blurb:"A white rose of light opens into a cross of souls: warriors of the faith, Joshua and Judas Maccabeus, Charlemagne, and Dante's own ancestor Cacciaguida, who shows him his future exile and its meaning." },
+      blurb:"A white rose of light opens into a cross of souls: warriors of the faith, Joshua and Judas Maccabeus, Charlemagne, and Dante's own ancestor Cacciaguida, who shows him his future exile and its meaning.",
+      quote:{ it:"Tu proverai sì come sa di sale / lo pane altrui, e come è duro calle / lo scender e 'l salir per l'altrui scale.",
+              en:"Thou shalt have proof how savoureth of salt / The bread of others, and how hard a road / The going down and up another's stairs.",
+              attr:"Cacciaguida's prophecy of exile, Paradiso XVII, in Longfellow's translation" },
+      art:{ file:"Par 16 cacciaguida.jpg", cap:"Gustave Doré, Cacciaguida in the cross of Mars (Paradiso XVI)" } },
     { name:"The Sixth Sphere: Jupiter", epithet:"Jupiter", motif:"eagle",
-      blurb:"Souls move like birds weaving letters into sentences, forming first 'Diligite iustitiam' and then an eagle, the very emblem of justice. Here the saved ask the question Dante aches to ask: how can a just God condemn those born beyond the faith?" },
+      blurb:"Souls move like birds weaving letters into sentences, forming first 'Diligite iustitiam' and then an eagle, the very emblem of justice. Here the saved ask the question Dante aches to ask: how can a just God condemn those born beyond the faith?",
+      quote:{ en:"Appeared before me with its wings outspread / The beautiful image that in sweet fruition / Made jubilant the interwoven souls.",
+              attr:"The Eagle of justice, Paradiso XIX, in Longfellow's translation" },
+      art:{ file:"Par 19 aquila.jpg", cap:"Gustave Doré, The Eagle of Jupiter (Paradiso XIX)" } },
     { name:"The Seventh Sphere: Saturn", epithet:"Saturn", motif:"ladder",
-      blurb:"A golden ladder rises beyond sight, and contemplatives, Peter Damian and Benedict, climb it slowly, explaining that even their longing is measured. Dante looks up and realizes Beatrice has grown more beautiful again." },
+      blurb:"A golden ladder rises beyond sight, and contemplatives, Peter Damian and Benedict, climb it slowly, explaining that even their longing is measured. Dante looks up and realizes Beatrice has grown more beautiful again.",
+      quote:{ en:"We are uplifted to the seventh splendour, / That underneath the burning Lion's breast / Now radiates downward mingled with his power.",
+              attr:"Beatrice, Paradiso XXI, in Longfellow's translation" },
+      art:{ file:"Gustave Doré - Paradiso, c. XXI, v. 1-3.jpg", cap:"Gustave Doré, The golden ladder (Paradiso XXI)" } },
     { name:"The Eighth Sphere: The Fixed Stars", epithet:"Stars", motif:"stars",
-      blurb:"Triumphant in the heaven of stars, Dante sees Christ and Mary and Gabriel in victory. Peter, James, and John examine him on faith, hope, and love, and Peter's own throne in heaven appears empty below, dark with the corruption of his successors." },
+      blurb:"Triumphant in the heaven of stars, Dante sees Christ and Mary and Gabriel in victory. Peter, James, and John examine him on faith, hope, and love, and Peter's own throne in heaven appears empty below, dark with the corruption of his successors.",
+      quote:{ en:"O company elect to the great supper / Of the Lamb benedight, who feedeth you / So that for ever full is your desire.",
+              attr:"Beatrice, Paradiso XXIV, in Longfellow's translation" },
+      art:{ file:"San Giovanni, illustrazione di Gustave Doré - Par 26.jpg", cap:"Gustave Doré, St. John examines Dante (Paradiso XXVI)" } },
     { name:"The Ninth Sphere: The Primum Mobile", epithet:"Primum Mobile", motif:"wheel",
-      blurb:"Beyond stars, the pure moving heaven of crystalline light. Beatrice explains the hierarchy of angels, and Dante looks back down to see the whole earth, a small threshing-floor that makes him smile at the world's pettiness." },
+      blurb:"Beyond stars, the pure moving heaven of crystalline light. Beatrice explains the hierarchy of angels, and Dante looks back down to see the whole earth, a small threshing-floor that makes him smile at the world's pettiness.",
+      quote:{ en:"A point beheld I, that was raying out / Light so acute, the sight which it enkindles / Must close perforce before such great acuteness. / And whatsoever star seems smallest here / Would seem to be a moon, if placed beside it.",
+              attr:"Paradiso XXVIII, in Longfellow's translation" },
+      art:{ file:"Par 28.jpg", cap:"Gustave Doré, The point of light (Paradiso XXVIII)" } },
     { name:"The Empyrean", epithet:"The Rose of Paradise", motif:"rose",
       blurb:"The tenth heaven is no place but pure light, the mind of God, a vast white rose whose petals are the blessed. Beatrice takes her seat among the exalted, and St. Bernard becomes the pilgrim's guide, praying to the Virgin. Dante looks into the light eternal, and sees the whole universe bound in a single volume, moved by one Love.",
       quote:{ it:"…l'amor che move il sole e l'altre stelle.",
@@ -303,7 +397,7 @@ function motifSVG(m,cant,i){
 
 /* ================= STATE ================= */
 const KEY="divine-comedy-journey-v1";
-let progress={ current:0, completed:[] };
+let progress={ current:0, completed:[], points:0, quiz:{} };
 try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s && typeof s.current==="number") progress=s; }catch(e){}
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify(progress)); }catch(e){} }
 const FLAT=[];
@@ -356,7 +450,7 @@ function renderHome(){
   document.getElementById("beginBtn").onclick=()=>openLevel(progress.current);
   document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
   const rl=document.getElementById("resetLink");
-  if(rl) rl.onclick=(e)=>{e.preventDefault(); if(confirm("Reset your journey and begin anew?")){progress={current:0,completed:[]};save();render();}};
+  if(rl) rl.onclick=(e)=>{e.preventDefault(); if(confirm("Reset your journey and begin anew?")){progress={current:0,completed:[],points:0,quiz:{}};save();render();}};
 }
 function renderJourney(){
   app.innerHTML=`
@@ -399,7 +493,7 @@ function renderLevel(i){
       <div>
         <div class="level-text"><p>${esc(l.blurb)}</p></div>
         ${l.quote?`<div class="level-quote">
-          <div class="it">${esc(l.quote.it)}</div>
+          ${l.quote.it?`<div class="it">${esc(l.quote.it)}</div>`:""}
           <div class="en">“${esc(l.quote.en)}”</div>
           <div class="attr">— ${esc(l.quote.attr)}</div>
         </div>`:""}
@@ -442,7 +536,7 @@ function showFinale(){
     <button class="btn primary" id="againBtn">Begin Anew</button>
   </div></div></section>`;
   document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
-  document.getElementById("againBtn").onclick=()=>{ if(confirm("Reset your journey?")){progress={current:0,completed:[]};save();render();} };
+  document.getElementById("againBtn").onclick=()=>{ if(confirm("Reset your journey?")){progress={current:0,completed:[],points:0,quiz:{}};save();render();} };
 }
 function renderGallery(){
   app.innerHTML=`
@@ -468,6 +562,162 @@ function renderMusic(){
   <footer><p>Composition by Franz Liszt (1811–1886), public domain. Performance streamed from the Internet Archive; all rights belong to their respective owners.</p></footer>`;
 }
 
+/* ================= QUIZ ================= */
+const QUIZ = [
+  { realm:0, q:"At what point of his life does the pilgrim find himself lost in the dark wood?",
+    opts:["In his youth","Midway upon the journey","In old age","On his deathbed"], a:1,
+    fact:"Inferno I opens: 'Midway upon the journey of our life I found myself within a forest dark.'" },
+  { realm:1, q:"What is written above the Gate of Hell?",
+    opts:["Beware the dog","All hope abandon, ye who enter in","Abandon every fear","Enter at your own risk"], a:1,
+    fact:"The nine-line inscription closes: 'All hope abandon, ye who enter in!' (Inferno III)" },
+  { realm:2, q:"Who made Dante a sixth among their number in Limbo?",
+    opts:["The apostles","The prophets","Homer and the ancient poets","The angels"], a:2,
+    fact:"The pilgrim is honored to be made sixth among Homer, Horace, Ovid and Lucan (Inferno IV)." },
+  { realm:3, q:"Which pair of lovers tells their tale in the whirlwind of the lustful?",
+    opts:["Romeo and Juliet","Tristan and Isolde","Lancelot and Guinevere","Paolo and Francesca"], a:3,
+    fact:"Francesca da Rimini and her Paolo read of Lancelot, 'and that day we read no further.' (Inferno V)" },
+  { realm:4, q:"Which three-headed monster torments the gluttonous?",
+    opts:["Cerberus","Minos","Geryon","Pluto"], a:0,
+    fact:"Cerberus, 'monster cruel and uncouth,' barks over the souls submerged in the rain (Inferno VI)." },
+  { realm:5, q:"What does Virgil say that Fortune turns?",
+    opts:["A crown","Her wheel","A mirror","A sword"], a:1,
+    fact:"Fortune turns her wheel so swiftly that worldly goods pass from hand to hand (Inferno VII)." },
+  { realm:6, q:"What is the black marsh in which the wrathful struggle?",
+    opts:["The Acheron","The Lethe","The Styx","The Phlegethon"], a:2,
+    fact:"Phlegyas ferries the poets across the Styx, where the wrathful tear at one another (Inferno VIII)." },
+  { realm:7, q:"Which unbowed heretic rises from his fiery tomb to speak with Dante?",
+    opts:["Farinata","Cavalcante","Frederick II","Pope Anastasius"], a:0,
+    fact:"Farinata degli Uberti rises 'as if he had Hell in great contempt' (Inferno X)." },
+  { realm:8, q:"Who patrols the river of boiling blood in the circle of violence?",
+    opts:["Harpies","Furies","Centaurs","Sirens"], a:2,
+    fact:"Chiron, who tutored Achilles, leads the centaurs shooting arrows at any soul who rises (Inferno XII)." },
+  { realm:9, q:"How many ditches (bolgias) make up Malebolge, the circle of fraud?",
+    opts:["Seven","Nine","Ten","Twelve"], a:2,
+    fact:"The stone funnel of fraud 'has distinct in valleys ten its bottom' (Inferno XVIII)." },
+  { realm:10, q:"Whom does Count Ugolino gnaw for eternity in the ice?",
+    opts:["Archbishop Ruggieri","Pope Nicholas III","Judas Iscariot","Brutus"], a:0,
+    fact:"'This one was Ruggieri the Archbishop' — Ugolino's famine is the poem's grimmest justice (Inferno XXXIII)." },
+  { realm:11, q:"Who guards the shore at the foot of Mount Purgatory?",
+    opts:["Cato of Utica","Matelda","Statius","Sordello"], a:0,
+    fact:"Cato, a pagan made free, orders the poets to wash away Hell's grime (Purgatorio I)." },
+  { realm:12, q:"What burden do the souls of Pride carry around their terrace?",
+    opts:["Iron chains","Heavy stones","Burning crosses","Broken shields"], a:1,
+    fact:"Bent beneath boulders, they pray: 'we are worms, born to bring forth the angelic butterfly' (Purgatorio X)." },
+  { realm:13, q:"How are the envious punished on their terrace?",
+    opts:["They run forever","They lie face down","Their eyes are sewn shut","They are wrapped in smoke"], a:2,
+    fact:"The envious, who looked too much at others' goods, lean on one another with eyes sewn with wire (Purgatorio XIII)." },
+  { realm:14, q:"What blinds the wrathful souls on the mountain?",
+    opts:["Smoke","Night","Rain","A veil"], a:0,
+    fact:"Blinding smoke mirrors the fog of rage, while visions of gentleness pass within (Purgatorio XVI)." },
+  { realm:15, q:"How do the slothful purge their lukewarmness?",
+    opts:["By standing still","By lying in dust","By singing psalms","By running ceaselessly"], a:3,
+    fact:"Zeal is the cure: the negligent run shouting examples of holy haste (Purgatorio XVIII)." },
+  { realm:16, q:"In what posture do the avaricious lie on their terrace?",
+    opts:["Face down upon the earth","Upright on their knees","Suspended in trees","Upside down in holes"], a:0,
+    fact:"The avaricious weep into the very dust they worshiped (Purgatorio XIX)." },
+  { realm:17, q:"What may the gluttonous souls see and smell but never taste?",
+    opts:["Bread and wine","Fruit and clear water","Honey and milk","Roasted meats"], a:1,
+    fact:"Hunger is cured by longing: the trees drip sweetness they cannot touch (Purgatorio XXIII-XXIV)." },
+  { realm:18, q:"What must every soul pass through at the very top of Purgatory?",
+    opts:["A golden gate","A dark tunnel","A wall of fire","A river of ice"], a:2,
+    fact:"'Beyond this fire lies Beatrice,' Virgil promises, and Dante walks into the flame (Purgatorio XXVII)." },
+  { realm:19, q:"What does the river Lethe do to the soul that bathes in it?",
+    opts:["Effaces the memory of sin","Grants eternal youth","Reveals the future","Washes away sorrow"], a:0,
+    fact:"Lethe takes away all memory of sin; Eunoe restores the memory of every good deed (Purgatorio XXVIII)." },
+  { realm:20, q:"Whose words are 'In His will is our peace'?",
+    opts:["Beatrice","Piccarda Donati","Empress Constance","Lucia"], a:1,
+    fact:"Piccarda, in the sphere of the Moon, gives the Comedy its great formula of peace (Paradiso III)." },
+  { realm:21, q:"Which Byzantine emperor speaks in the sphere of Mercury?",
+    opts:["Constantine","Augustus","Justinian","Trajan"], a:2,
+    fact:"'Caesar I was, and am Justinian' — the lawgiver sings of the Roman eagle (Paradiso VI)." },
+  { realm:22, q:"Which biblical heroine is named among the blessed of Venus?",
+    opts:["Judith","Esther","Deborah","Rahab"], a:3,
+    fact:"Rahab, who aided Joshua at Jericho, was 'first of Christ's triumph taken up' (Paradiso IX)." },
+  { realm:23, q:"Which saint's marriage to Lady Poverty is celebrated in the Sun?",
+    opts:["Francis of Assisi","Dominic","Benedict","Bernard"], a:0,
+    fact:"St. Thomas sings how Francis wed Poverty, and the sun itself rejoices (Paradiso XI)." },
+  { realm:24, q:"Who is Dante's own ancestor who greets him in the cross of Mars?",
+    opts:["Cacciaguida","Farinata","Brunetto","Forese"], a:0,
+    fact:"Cacciaguida, crusader and great-great-grandfather, reveals the poet's future exile (Paradiso XV-XVII)." },
+  { realm:25, q:"What shape do the souls of Jupiter form in the sky?",
+    opts:["A cross","An eagle","A rose","A ladder"], a:1,
+    fact:"First spelling 'Diligite iustitiam,' the souls become the Eagle of justice (Paradiso XVIII-XX)." },
+  { realm:26, q:"What rises from the heaven of Saturn far beyond sight?",
+    opts:["A river of light","A thread of stars","A golden ladder","A bridge of gold"], a:2,
+    fact:"The contemplatives climb a ladder 'uplifted to the seventh splendour' so high it vanishes (Paradiso XXI)." },
+  { realm:27, q:"Which apostle examines Dante on the virtue of faith?",
+    opts:["St. John","St. Peter","St. James","St. Paul"], a:1,
+    fact:"In the Fixed Stars, Peter questions the pilgrim, John on love, James on hope (Paradiso XXIV-XXV)." },
+  { realm:28, q:"Seen from the heavens, what does Dante call the whole earth?",
+    opts:["A blue gem","A garden","A ship at sea","A little threshing-floor"], a:3,
+    fact:"'The little threshing-floor that makes us so fierce' — the earth seen whole makes him smile (Paradiso XXII)." },
+  { realm:29, q:"Who becomes Dante's final guide, praying to the Virgin for him?",
+    opts:["St. Bernard","St. Peter","Virgil","Cacciaguida"], a:0,
+    fact:"Beatrice returns to her rose; St. Bernard takes over, and Mary grants the vision (Paradiso XXXI-XXXIII)." }
+];
+const RANKS = [
+  [0,   "Novice of the Dark Wood"],
+  [30,  "Pilgrim at the Gate"],
+  [60,  "Passenger of Charon"],
+  [90,  "Wanderer of the Nine Circles"],
+  [120, "Climber of the Seven Terraces"],
+  [150, "Citizen of the Earthly Paradise"],
+  [180, "Voyager among the Spheres"],
+  [210, "Contemplative of the Primum Mobile"],
+  [240, "Star-Borne Pilgrim"],
+  [270, "Chosen of the Empyrean Rose"],
+  [300, "Beatific Vision"]
+];
+function rankFor(p){
+  let rank = RANKS[0][1], next = null;
+  for (const r of RANKS) { if (p >= r[0]) { rank = r[1]; } else { next = r; break; } }
+  return { rank, next };
+}
+function renderQuiz(){
+  const pts = progress.points || 0;
+  const { rank, next } = rankFor(pts);
+  const total = QUIZ.length;
+  const correct = QUIZ.reduce((n, _, i) => n + (progress.quiz[i] && progress.quiz[i].correct ? 1 : 0), 0);
+  const nextHint = next ? " — " + (next[0] - pts) + " more points to " + next[1] : " — the summit reached!";
+  app.innerHTML = `
+  <h2 style="font-size:1.6rem;margin-top:1rem">The Pilgrim's Quiz</h2>
+  <p style="color:#a9966f;font-style:italic;margin:.3rem 0">Thirty questions, one for each realm of the journey. Ten points for each first correct answer; wrong turns cost you nothing but time. Your rank rises as your knowledge deepens.</p>
+  <div class="qscore">
+    <span class="chip">Rank: ${esc(rank)}</span>
+    <span class="chip">${pts} points</span>
+    <span class="chip">${correct} of ${total} answered truly</span>
+  </div>
+  <p style="font-size:.85rem;color:#a9966f;margin-bottom:1.4rem">${esc(pts + nextHint)}</p>
+  ${QUIZ.map((z, i) => {
+    const st = progress.quiz[i] || null;
+    const realm = FLAT[z.realm];
+    const opts = z.opts.map((o, oi) => {
+      let cls = "qopt";
+      if (st && st.correct && oi === z.a) cls += " right";
+      else if (st && !st.correct && st.picked === oi) cls += " wrong";
+      return `<button class="${cls}" data-q="${i}" data-o="${oi}">${esc(o)}</button>`;
+    }).join("");
+    const fact = st && st.correct ? `<div class="qfact">${esc(z.fact)}</div>` : (st && !st.correct ? `<div class="qfact">Not quite, pilgrim — look again and try once more.</div>` : "");
+    return `<div class="qcard">
+      <div class="qtag">${esc(realm.canticleTitle)} · ${esc(realm.name)}</div>
+      <div class="qtext">${esc(z.q)}</div>
+      ${opts}${fact}
+    </div>`;
+  }).join("")}
+  <footer><p>All facts drawn from Dante's Divine Comedy, Longfellow's 1867 translation (public domain).</p></footer>`;
+  app.querySelectorAll(".qopt").forEach(b => b.onclick = () => {
+    const qi = +b.dataset.q, oi = +b.dataset.o;
+    const z = QUIZ[qi];
+    const st = progress.quiz[qi];
+    if (st && st.correct) return;
+    const hadCorrect = st && st.correct;
+    const isRight = oi === z.a;
+    progress.quiz[qi] = { picked: oi, correct: isRight };
+    if (isRight && !hadCorrect) progress.points = (progress.points || 0) + 10;
+    save(); renderQuiz(); updateProgressUI();
+  });
+}
+
 /* ================= TABS ================= */
 function showTab(t,levelIdx){
   tab=t;
@@ -476,6 +726,7 @@ function showTab(t,levelIdx){
   else if(t==="journey")renderJourney();
   else if(t==="gallery")renderGallery();
   else if(t==="music")renderMusic();
+  else if(t==="quiz")renderQuiz();
   else if(t==="level")renderLevel(levelIdx);
   window.scrollTo({top:0,behavior:"instant"});
 }
