@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Journey Through the Divine Comedy</title>
+<meta property="og:title" content="Journey Through the Divine Comedy" />
+<meta property="og:description" content="An illustrated, musical pilgrimage through Dante's Inferno, Purgatorio, and Paradiso, with Gustave Doré's engravings and Liszt's Dante Symphony." />
+<meta property="og:image" content="https://commons.wikimedia.org/wiki/Special:FilePath/Gustave%20Dore%20Inferno34.jpg?width=1200" />
+<style>
+  :root{
+    --ink:#1a1410; --parchment:#f3ead8; --gold:#c9a227; --gold2:#e8c76a;
+    --inferno1:#1a0505; --inferno2:#7a1f0e; --ember:#ff7a3c;
+    --purg1:#0d1428; --purg2:#3d5a80; --dawn:#9fb4d8;
+    --par1:#1c2340; --par2:#87a7ff; --light:#fffbe8;
+    --font-head:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --font-body:Georgia,"Times New Roman",serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ink);color:var(--parchment);font-family:var(--font-body);line-height:1.65}
+  h1,h2,h3{font-family:var(--font-head);font-weight:700;letter-spacing:.02em}
+  a{color:var(--gold2)}
+  /* ---------- NAV ---------- */
+  nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:1rem;
+      background:rgba(16,10,6,.92);backdrop-filter:blur(6px);padding:.7rem 1.2rem;border-bottom:1px solid #3a2a18}
+  nav .brand{font-family:var(--font-head);color:var(--gold2);font-size:1.05rem;cursor:pointer;white-space:nowrap}
+  nav .tabs{display:flex;gap:.2rem;flex-wrap:wrap}
+  nav .tabs button{background:none;border:none;color:#cdbfa5;font-family:var(--font-body);font-size:.95rem;
+      padding:.35rem .8rem;border-radius:999px;cursor:pointer}
+  nav .tabs button:hover{color:var(--light)}
+  nav .tabs button.active{background:#3a2a18;color:var(--gold2)}
+  #progressWrap{flex:1;min-width:80px}
+  #progressBar{height:6px;background:#2c2012;border-radius:999px;overflow:hidden}
+  #progressFill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--ember));transition:width .5s ease}
+  #progressLabel{font-size:.72rem;color:#a9966f;text-align:right;margin-top:2px}
+  main{max-width:900px;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+  .hidden{display:none !important}
+  /* ---------- HOME ---------- */
+  .hero{position:relative;border:1px solid #3a2a18;border-radius:14px;overflow:hidden;margin-top:1rem}
+  .hero .bg{height:340px;background:
+     radial-gradient(ellipse 60% 50% at 30% 90%, rgba(255,122,60,.35), transparent 65%),
+     radial-gradient(ellipse 70% 60% at 75% 15%, rgba(135,167,255,.22), transparent 70%),
+     linear-gradient(160deg,#120404 0%, #1c0a08 38%, #0d1428 66%, #1c2340 100%);
+     display:flex;align-items:center;justify-content:center}
+  .hero .bg svg{width:100%;height:100%;opacity:.9}
+  .hero .inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:1.5rem}
+  .hero h1{font-size:clamp(1.6rem,5vw,2.7rem);color:var(--light);text-shadow:0 2px 18px rgba(0,0,0,.8)}
+  .hero .sub{margin-top:.5rem;color:#e4d6b8;font-style:italic;max-width:34rem;text-shadow:0 1px 8px rgba(0,0,0,.9)}
+  .epigraph{margin:2rem auto 1rem;max-width:36rem;text-align:center;font-style:italic;color:#d8c8a4}
+  .epigraph .attr{font-style:normal;font-size:.8rem;color:#a9966f;margin-top:.3rem}
+  .home-actions{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:1.4rem}
+  .btn{font-family:var(--font-head);font-size:1rem;padding:.75rem 1.6rem;border-radius:999px;cursor:pointer;border:1px solid var(--gold);
+       background:linear-gradient(180deg,#3a2a18,#241808);color:var(--gold2);transition:transform .15s ease,box-shadow .15s ease}
+  .btn:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(201,162,39,.25)}
+  .btn.primary{background:linear-gradient(180deg,var(--gold2),var(--gold));color:#241808;border-color:var(--gold2);font-weight:700}
+  .home-notes{margin-top:2.4rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+  .card{border:1px solid #3a2a18;border-radius:12px;padding:1.1rem;background:rgba(30,20,10,.5)}
+  .card h3{color:var(--gold2);font-size:1rem;margin-bottom:.4rem}
+  .card p{font-size:.9rem;color:#cdbfa5}
+  /* ---------- JOURNEY MAP ---------- */
+  .canticle{margin:2rem 0 1rem}
+  .canticle h2{display:flex;align-items:center;gap:.7rem;font-size:1.35rem}
+  .canticle .c-inferno{color:#ff9c6b}.canticle .c-purgatorio{color:var(--dawn)}.canticle .c-paradiso{color:var(--par2)}
+  .c-desc{font-size:.85rem;color:#a9966f;font-style:italic;margin:.2rem 0 1rem}
+  .level-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.8rem}
+  .lvl{border:1px solid #3a2a18;border-radius:10px;overflow:hidden;cursor:pointer;background:rgba(20,12,6,.6);
+       transition:transform .15s ease,border-color .15s ease;position:relative}
+  .lvl:hover{transform:translateY(-2px);border-color:var(--gold)}
+  .lvl.locked{opacity:.5}
+  .lvl .strip{height:56px;display:block}
+  .lvl .strip svg{width:100%;height:100%}
+  .lvl .txt{padding:.6rem .7rem .8rem}
+  .lvl .num{font-size:.68rem;letter-spacing:.12em;color:#a9966f;text-transform:uppercase}
+  .lvl .name{font-family:var(--font-head);font-size:.95rem;color:var(--light);line-height:1.3;margin-top:.15rem}
+  .lvl .done-badge{position:absolute;top:.4rem;right:.4rem;background:var(--gold);color:#241808;border-radius:999px;
+       font-size:.62rem;font-weight:700;padding:.1rem .45rem}
+  .lvl .here-badge{position:absolute;top:.4rem;left:.4rem;background:#ff7a3c;color:#1a0505;border-radius:999px;
+       font-size:.62rem;font-weight:700;padding:.1rem .45rem}
+  /* ---------- LEVEL VIEW ---------- */
+  #levelView .crumbs{font-size:.78rem;color:#a9966f;letter-spacing:.08em;text-transform:uppercase}
+  #levelView h2{font-size:clamp(1.4rem,4vw,2.1rem);margin:.2rem 0 .1rem}
+  #levelView .epithet{font-style:italic;color:var(--gold2);margin-bottom:1rem}
+  .level-art{display:grid;grid-template-columns:1fr;gap:1.2rem;margin-bottom:1.4rem}
+  .artframe{border:1px solid #3a2a18;border-radius:12px;overflow:hidden;position:relative;min-height:240px;
+       background:linear-gradient(160deg,#120404,#1c0a08)}
+  .artframe svg.motif{width:100%;height:280px;display:block}
+  .artframe img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .artframe .cap{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.85));
+       padding:1.6rem .9rem .5rem;font-size:.72rem;color:#d8c8a4;font-style:italic}
+  .level-text p{max-width:40rem;color:#e7dcc3;margin-bottom:1rem}
+  .level-quote{max-width:36rem;margin:1.4rem 0;padding:1.1rem 1.3rem;border-left:3px solid var(--gold);
+       background:rgba(201,162,39,.06);border-radius:0 10px 10px 0}
+  .level-quote .it{font-style:italic;color:var(--gold2)}
+  .level-quote .en{margin-top:.4rem;color:#e7dcc3;font-size:.95rem}
+  .level-quote .attr{margin-top:.5rem;font-size:.72rem;color:#a9966f}
+  .level-nav{display:flex;justify-content:space-between;gap:.8rem;margin-top:2rem}
+  /* ---------- GALLERY ---------- */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem;margin-top:1.5rem}
+  .gitem{border:1px solid #3a2a18;border-radius:12px;overflow:hidden;background:rgba(30,20,10,.5)}
+  .gitem .imgwrap{height:280px;background:linear-gradient(160deg,#120404,#1c0a08);overflow:hidden}
+  .gitem img{width:100%;height:100%;object-fit:cover;display:block}
+  .gitem .meta{padding:.7rem .8rem .9rem}
+  .gitem .meta h3{font-size:.9rem;color:var(--light);font-weight:400;font-family:var(--font-body)}
+  .gitem .meta p{font-size:.75rem;color:#a9966f;margin-top:.2rem}
+  /* ---------- MUSIC ---------- */
+  .music-note{max-width:40rem;color:#cdbfa5;margin:1rem 0 1.2rem}
+  .player{border:1px solid #3a2a18;border-radius:12px;overflow:hidden;background:rgba(20,12,6,.6);margin-bottom:1.2rem}
+  .player iframe{width:100%;height:150px;border:0;display:block}
+  .player .meta{padding:.7rem .9rem;font-size:.8rem;color:#a9966f}
+  footer{margin-top:3.5rem;border-top:1px solid #3a2a18;padding-top:1.2rem;font-size:.72rem;color:#8a774f}
+  footer p{margin-bottom:.3rem}
+  @media(min-width:700px){ .level-art{grid-template-columns:1fr 1fr} }
+</style>
+</head>
+<body>
+<nav>
+  <span class="brand" id="brandHome">✦ Journey Through the Divine Comedy</span>
+  <div class="tabs" id="tabs">
+    <button data-tab="home" class="active">Home</button>
+    <button data-tab="journey">The Journey</button>
+    <button data-tab="gallery">Art Gallery</button>
+    <button data-tab="music">Music</button>
+  </div>
+  <div id="progressWrap">
+    <div id="progressBar"><div id="progressFill"></div></div>
+    <div id="progressLabel">0 of 30 realms</div>
+  </div>
+</nav>
+<main id="app"></main>
+
+<script>
+/* ================= DATA ================= */
+const wm = f => "https://commons.wikimedia.org/wiki/Special:FilePath/" + encodeURIComponent(f) + "?width=1000";
+
+const CANTICLES = [
+{
+  id:"inferno", title:"Inferno", subtitle:"The Descent",
+  desc:"Nine circles spiral downward from the lost wood to the frozen pit of Cocytus.",
+  cls:"c-inferno",
+  levels:[
+    { name:"The Dark Wood", epithet:"Nel mezzo del cammin di nostra vita", motif:"wood",
+      blurb:"Midway through life, the pilgrim wakes in a dark wood, the straight path lost. Three beasts bar the way, until a figure from antiquity steps out of the silence: the poet Virgil, sent by a lady named Beatrice.",
+      quote:{ it:"Nel mezzo del cammin di nostra vita / mi ritrovai per una selva oscura, / ché la diritta via era smarrita.",
+              en:"Midway upon the journey of our life / I found myself within a forest dark, / For the straightforward pathway had been lost.",
+              attr:"Dante, Inferno I, in Henry Wadsworth Longfellow's translation" },
+      art:{ file:"Dante lost in the dark forest, illustration to Dante’s Inferno by Gustave Doré.jpg", cap:"Gustave Doré, Dante lost in the dark forest (Inferno I)" } },
+    { name:"The Gate of Hell", epithet:"Lasciate ogne speranza, voi ch'intrate", motif:"gate",
+      blurb:"An inscription forged in iron colors seals the gate. Beyond it lie the uncommitted souls, stung forever by wasps and flies, and the river Acheron, where the ferryman Charon poles his crowded boat toward the far shore.",
+      quote:{ it:"Lasciate ogne speranza, voi ch'intrate.",
+              en:"All hope abandon, ye who enter in.",
+              attr:"Dante, Inferno III, in Longfellow's translation" },
+      art:{ file:"Gustave Doré - Dante Alighieri - Inferno - Plate 8 (Canto III - Abandon all hope ye who enter here).jpg", cap:"Gustave Doré, 'Abandon all hope, ye who enter here' (Inferno III)" } },
+    { name:"Limbo", epithet:"First Circle", motif:"mist",
+      blurb:"A realm of sighs rather than torments: the virtuous unbaptized dwell in a dim noble castle. Homer, Horace, Ovid, and the great ancients honor Dante as one of their own, and here he learns even wisdom has its borders.",
+      art:{ file:"Gustave Doré - Dante Alighieri - Inferno - Plate 10 (Canto III - Charon herds the sinners onto his boat).jpg", cap:"Gustave Doré, Charon herds the sinners onto his boat (Inferno III)" } },
+    { name:"Lust", epithet:"Second Circle", motif:"whirl",
+      blurb:"In the howling dark, souls are swept in an endless gale, riders of the storm that mirrors the wind of desire. Minos, the snarling judge, coils his tail to assign each shade its place. Among the blown-about lovers, Francesca da Rimini tells her tale, and Dante faints with pity.",
+      quote:{ it:"Nessun maggior dolore / che ricordarsi del tempo felice / nella miseria.",
+              en:"There is no greater sorrow / Than to be mindful of the happy time / In misery.",
+              attr:"Francesca da Rimini's words, Inferno V, in Longfellow's translation" },
+      art:{ file:"Gustave Doré - Dante Alighieri - Inferno - Plate 13 (Canto V - Minos).jpg", cap:"Gustave Doré, Minos (Inferno V)" } },
+    { name:"Gluttony", epithet:"Third Circle", motif:"rain",
+      blurb:"Cold filthy rain falls without pause on the souls sprawled beneath it, harried by Cerberus, the three-throated worm. Here the gluttonous lie like swine in mire, each drop of water a small eternity of appetite reversed." },
+    { name:"Greed", epithet:"Fourth Circle", motif:"weight",
+      blurb:"Two mobs roll enormous weights in half-circles, crashing into each other and screaming their twin reproaches: 'Why hoard?' and 'Why waste?' Fortune, says Virgil, turns her wheel and needs no blame." },
+    { name:"Wrath", epithet:"Fifth Circle", motif:"swamp",
+      blurb:"The Styx is a black marsh where the wrathful tear at one another on the surface and the sullen bubble below, gurgling their hymn through the mud. At the far bank, the walls of the city of Dis rise red through the fog." },
+    { name:"Heresy", epithet:"Sixth Circle", motif:"tomb",
+      blurb:"Inside Dis, a field of open tombs glows like a city of ember-lit hearths. Epicureans, who denied the soul's immortality, lie in chests of fire that will one day be sealed forever. Farinata, unbowed even in death, rises to speak with Dante." },
+    { name:"Violence", epithet:"Seventh Circle", motif:"fire-ring",
+      blurb:"Three rings: a river of boiling blood patrolled by centaurs; a wood where the suicides grow as twisted trees, bleeding when the Harpies break them; and a burning plain where fire falls like snow on the violent against God. The aging Brunetto Latini walks briefly beside his student." },
+    { name:"Fraud", epithet:"Eighth Circle, Malebolge", motif:"ditch",
+      blurb:"Ten concentric ditches of stone, an iron funnel of deception: seducers scourged, flatterers drowned in excrement, simonists planted upside down in baptismal holes, fortune-tellers with heads twisted backward, thieves entwined with serpents. Geryon carries the poets down on his patterned back." },
+    { name:"Treachery", epithet:"Ninth Circle, Cocytus", motif:"ice",
+      blurb:"At the earth's very floor, a frozen lake where betrayal locks the soul in ice. Count Ugolino gnaws eternally on the archbishop who starved him. And at the center, vast as a windmill, half-imbedded in ice, Lucifer beats his three faces' wings, the engine of the eternal frost.",
+      art:{ file:"Gustave Dore Inferno34.jpg", cap:"Gustave Doré, Lucifer (Inferno XXXIV)" } }
+  ]
+},
+{
+  id:"purgatorio", title:"Purgatorio", subtitle:"The Mountain",
+  desc:"Seven terraces wind up the mountain, where souls purge themselves toward freedom.",
+  cls:"c-purgatorio",
+  levels:[
+    { name:"The Shore of Antipurgatory", epithet:"Purgatorio I", motif:"shore",
+      blurb:"Climbing Lucifer's flanks, the poets emerge to see stars again, and the island-mountain of Purgatory rising from the sea. The guardian Cato, a pagan soul made free, orders them to wash Hell's grime away and gird themselves for ascent.",
+      art:{ file:"Pur 01 dore.jpg", cap:"Gustave Doré, Cato of Utica (Purgatorio I)" } },
+    { name:"Pride", epithet:"First Terrace", motif:"weight2",
+      blurb:"Souls, bent beneath boulders, circle slowly and pray the Lord's Prayer in its most humbling line. Carved in the rock are scenes of humility: David dancing before the ark, Trajan and the widow. When pride's weight is gone, the souls straighten and sing." },
+    { name:"Envy", epithet:"Second Terrace", motif:"veil",
+      blurb:"The envious wear haircloth cloaks, eyes sewn shut with wire, leaning on one another like the blind. Voices in the air sing of generosity and of Mary's humility; the terrace's carved example is the widow who gave her two coins." },
+    { name:"Wrath", epithet:"Third Terrace", motif:"smoke",
+      blurb:"In acrid smoke that mirrors the blinding fog of rage, souls sing 'Agnus Dei' while visions of gentleness flash before their inner eyes: the martyr Stephen praying for his killers." },
+    { name:"Sloth", epithet:"Fourth Terrace", motif:"run",
+      blurb:"Here souls cure lukewarmness with zeal: they run ceaselessly around the terrace, shouting examples of holy haste and the fate of the dilatory, too late. Two radiant souls, the poet Statius among them, overtake the pilgrims at a bound." },
+    { name:"Avarice", epithet:"Fifth Terrace", motif:"flat",
+      blurb:"The avaricious and the prodigal lie face down, weeping into the dust they worshiped. Nightly, the mountain trembles and all sing 'Gloria in excelsis Deo,' the only Psalm of ascent each soul may lift from the dust." },
+    { name:"Gluttony", epithet:"Sixth Terrace", motif:"tree",
+      blurb:"Fruit trees heavy with sweetness the souls may smell but never taste; water that drips from the rock and is never quite enough. Statius explains why he was both avaricious and wasteful, and how the souls grow lean by longing." },
+    { name:"Lust", epithet:"Seventh Terrace", motif:"flame2",
+      blurb:"A wall of fire through which the lustful pass, singing and calling each other's names like armies greeting at night. Dante fears to enter; Virgil tells him that beyond the fire lies Beatrice. Guido Guinicelli and the troubadour Arnaut Daniel pass by, refined." },
+    { name:"The Earthly Paradise", epithet:"Purgatorio XXVIII", motif:"forest",
+      blurb:"The forest opens into an eternal May: a pure stream, a lady gathering flowers and singing, Matelda, who explains that here the Lethe and Eunoë flow. Dante is dipped in Lethe and forgets his sins, then in Eunoë and remembers his good. A pageant of Revelation passes, and Beatrice descends at last, veiled in white." }
+  ]
+},
+{
+  id:"paradiso", title:"Paradiso", subtitle:"The Ascent",
+  desc:"Nine spheres of light, each a heaven of the Moon through the stars, rising to the Empyrean rose.",
+  cls:"c-paradiso",
+  levels:[
+    { name:"The First Sphere: The Moon", epithet:"Moon", motif:"moon",
+      blurb:"Beatrice gazes at Dante, and they rise into a pearl-white heaven. Here dwell the inconstant, souls who broke vows, their faces like dim glass, serenely content with their lot while explaining that freedom and vows are weighty things." },
+    { name:"The Second Sphere: Mercury", epithet:"Mercury", motif:"star",
+      blurb:"A sphere of shimmering silver where the ambitious, those who pursued glory, gleam like fish in a bright pool. Justinian, lawgiver of Byzantium, tells the history of the Roman eagle and the mystery of justice." },
+    { name:"The Third Sphere: Venus", epithet:"Venus", motif:"rose",
+      blurb:"The heaven of lovers glows like a rose-lit sky. Charles Martel explains how nature's varieties serve providence; the troubadour Folco sings of Rahab, and of how sweet this heaven is to those who loved rightly." },
+    { name:"The Fourth Sphere: The Sun", epithet:"Sun", motif:"sun",
+      blurb:"A wheel of light: Thomas Aquinas, Bonaventure, Albertus Magnus, and Siger circle in two garlands of wisdom, debating the meeting point of philosophy and faith. Here the love of truth is a dance." },
+    { name:"The Fifth Sphere: Mars", epithet:"Mars", motif:"cross",
+      blurb:"A white rose of light opens into a cross of souls: warriors of the faith, Joshua and Judas Maccabeus, Charlemagne, and Dante's own ancestor Cacciaguida, who shows him his future exile and its meaning." },
+    { name:"The Sixth Sphere: Jupiter", epithet:"Jupiter", motif:"eagle",
+      blurb:"Souls move like birds weaving letters into sentences, forming first 'Diligite iustitiam' and then an eagle, the very emblem of justice. Here the saved ask the question Dante aches to ask: how can a just God condemn those born beyond the faith?" },
+    { name:"The Seventh Sphere: Saturn", epithet:"Saturn", motif:"ladder",
+      blurb:"A golden ladder rises beyond sight, and contemplatives, Peter Damian and Benedict, climb it slowly, explaining that even their longing is measured. Dante looks up and realizes Beatrice has grown more beautiful again." },
+    { name:"The Eighth Sphere: The Fixed Stars", epithet:"Stars", motif:"stars",
+      blurb:"Triumphant in the heaven of stars, Dante sees Christ and Mary and Gabriel in victory. Peter, James, and John examine him on faith, hope, and love, and Peter's own throne in heaven appears empty below, dark with the corruption of his successors." },
+    { name:"The Ninth Sphere: The Primum Mobile", motif:"wheel",
+      blurb:"Beyond stars, the pure moving heaven of crystalline light. Beatrice explains the hierarchy of angels, and Dante looks back down to see the whole earth, a small threshing-floor that makes him smile at the world's pettiness." },
+    { name:"The Empyrean", epithet:"The Rose of Paradise", motif:"rose",
+      blurb:"The tenth heaven is no place but pure light, the mind of God, a vast white rose whose petals are the blessed. Beatrice takes her seat among the exalted, and St. Bernard becomes the pilgrim's guide, praying to the Virgin. Dante looks into the light eternal, and sees the whole universe bound in a single volume, moved by one Love.",
+      quote:{ it:"…l'amor che move il sole e l'altre stelle.",
+              en:"…the Love that moves the sun and the other stars.",
+              attr:"The final line of the Divine Comedy, Paradiso XXXIII, in Longfellow's translation" },
+      art:{ file:"Par 31.jpg", cap:"Gustave Doré, The Empyrean Rose (Paradiso XXXI)" } }
+  ]
+}
+]);
+
+const GALLERY = [
+  { file:"Dante Alighieri 1860.jpg", title:"Portrait of Dante", note:"After the fresco in the Bargello, Florence" },
+  { file:"Dante lost in the dark forest, illustration to Dante’s Inferno by Gustave Doré.jpg", title:"Dante lost in the dark forest", note:"Inferno I" },
+  { file:"Gustave Doré - Dante Alighieri - Inferno - Plate 8 (Canto III - Abandon all hope ye who enter here).jpg", title:"The Gate of Hell", note:"Inferno III" },
+  { file:"Gustave Doré - Dante Alighieri - Inferno - Plate 9 (Canto III - Charon).jpg", title:"Charon", note:"Inferno III" },
+  { file:"Gustave Doré - Dante Alighieri - Inferno - Plate 13 (Canto V - Minos).jpg", title:"Minos judging the damned", note:"Inferno V" },
+  { file:"Gustave Doré - Dante Alighieri - Inferno - Plate 15 (Canto V - Francesca di Rimini).jpg", title:"The tale of Francesca da Rimini", note:"Inferno V" },
+  { file:"Gustave Dore Inferno34.jpg", title:"Lucifer in the ice of Cocytus", note:"Inferno XXXIV" },
+  { file:"Pur 01 dore.jpg", title:"Cato, guardian of Purgatory", note:"Purgatorio I" },
+  { file:"Dante top.png", title:"The ascent beyond the spheres", note:"The Vision of Paradise" },
+  { file:"Par 31.jpg", title:"The Empyrean Rose", note:"Paradiso XXXI" }
+];
+
+const MUSIC = {
+  embed:"https://archive.org/embed/lp_liszt-a-symphony-to-dantes-divine-comedy_franz-liszt-los-angeles-philharmonic-orche",
+  link:"https://archive.org/details/lp_liszt-a-symphony-to-dantes-divine-comedy_franz-liszt-los-angeles-philharmonic-orche",
+  attribution:"Franz Liszt, A Symphony to Dante's 'Divine Comedy' (1856), performed by the Los Angeles Philharmonic Orchestra conducted by Alfred Wallenstein (Decca DL 9670), streamed via the Internet Archive."
+};
+
+/* ================= VISUAL MOTIFS (procedural SVG) ================= */
+function rnd(seed){ let s=seed; return ()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; }; }
+const PALETTES={
+  inferno:["#120404","#7a1f0e","#ff7a3c"], purgatorio:["#0d1428","#3d5a80","#9fb4d8"],
+  paradiso:["#1c2340","#87a7ff","#fffbe8"]
+};
+function motifSVG(m,cant,i){
+  const p=PALETTES[cant]; const r=rnd(i*77+13); let el="";
+  const n=14;
+  for(let k=0;k<n;k++){
+    const x=r()*100,y=r()*80+8,s=r()*8+3,o=(0.12+r()*0.35).toFixed(2);
+    switch(m){
+      case "wood": el+=`<rect x="${x}" y="5" width="${(1+r()*2).toFixed(1)}" height="90" fill="#000" opacity="${o}"/>`; break;
+      case "gate": el+=`<circle cx="${x+10}" cy="${y+5}" r="${s}" fill="none" stroke="${p[1]}" stroke-width=".6" opacity="${o}"/>`; break;
+      case "mist": el+=`<ellipse cx="${x*1.2}" cy="${y+10}" rx="${s*2.4}" ry="${s*.7}" fill="${p[2]}" opacity="${(o/2).toFixed(2)}"/>`; break;
+      case "whirl": el+=`<path d="M ${x} ${y} q ${s} ${-s} ${s*2} 0 q ${s} ${s} ${s*2} 0" stroke="${p[2]}" fill="none" stroke-width=".7" opacity="${o}"/>`; break;
+      case "rain": el+=`<line x1="${x}" y1="${y}" x2="${x-4}" y2="${y+16}" stroke="${p[2]}" stroke-width=".8" opacity="${o}"/>`; break;
+      case "weight": case "weight2": el+=`<rect x="${x}" y="${y}" width="${s*1.6}" height="${s*1.6}" fill="${p[1]}" opacity="${o}" transform="rotate(${(r()*40-20).toFixed(0)} ${x} ${y})"/>`; break;
+      case "swamp": el+=`<path d="M ${x} ${y} q 6 -3 12 0 t 12 0" stroke="${p[1]}" fill="none" stroke-width=".8" opacity="${o}"/>`; break;
+      case "tomb": el+=`<rect x="${x}" y="${y}" width="${s*2}" height="${s*1.3}" fill="none" stroke="${p[2]}" stroke-width=".6" opacity="${o}"/>`; break;
+      case "fire-ring": case "flame2": el+=`<path d="M ${x} ${y+s} q ${s} ${-s*2.2} 0 ${-s*3} q ${-s} ${s*.8} 0 ${s*3} z" fill="${p[2]}" opacity="${o}"/>`; break;
+      case "ditch": el+=`<path d="M ${x-14} ${y+8} Q ${x} ${y-4} ${x+14} ${y+8}" stroke="${p[1]}" fill="none" stroke-width="1" opacity="${o}"/>`; break;
+      case "ice": el+=`<path d="M ${x} ${y-s} L ${x+s*.9} ${y} L ${x} ${y+s} L ${x-s*.9} ${y} Z" fill="none" stroke="${p[2]}" stroke-width=".7" opacity="${o}"/>`; break;
+      case "shore": el+=`<path d="M ${x-15} ${y} q 7 ${-4} 15 0 t 15 0" stroke="${p[2]}" fill="none" stroke-width=".7" opacity="${o}"/>`; break;
+      case "veil": el+=`<line x1="${x}" y1="${y-6}" x2="${x+r()*8-4}" y2="${y+14}" stroke="${p[2]}" stroke-width=".6" opacity="${o}"/>`; break;
+      case "smoke": el+=`<circle cx="${x}" cy="${y}" r="${s}" fill="${p[1]}" opacity="${o}"/>`; break;
+      case "run": el+=`<path d="M ${x-8} ${y} h 16" stroke="${p[2]}" stroke-width=".7" opacity="${o}"/>`; break;
+      case "flat": el+=`<rect x="${x-12}" y="${y+4}" width="24" height="1.2" fill="${p[1]}" opacity="${o}"/>`; break;
+      case "tree": el+=`<circle cx="${x}" cy="${y}" r="${s*.8}" fill="${p[2]}" opacity="${(o/2).toFixed(2)}"/>`; break;
+      case "forest": el+=`<circle cx="${x}" cy="${y}" r="${s}" fill="none" stroke="${p[2]}" stroke-width=".5" opacity="${o}"/>`; break;
+      case "moon": el+=`<circle cx="${x}" cy="${y}" r="${s}" fill="${p[2]}" opacity="${(o/2.5).toFixed(2)}"/>`; break;
+      case "star": case "stars": el+=`<path d="M ${x} ${y-s} L ${x+s*.3} ${y-s*.3} L ${x+s} ${y} L ${x+s*.3} ${y+s*.3} L ${x} ${y+s} L ${x-s*.3} ${y+s*.3} L ${x-s} ${y} L ${x-s*.3} ${y-s*.3} Z" fill="${p[2]}" opacity="${o}"/>`; break;
+      case "rose": el+=`<circle cx="${x}" cy="${y}" r="${s}" fill="none" stroke="${p[2]}" stroke-width=".5" opacity="${o}"/>`; break;
+      case "sun": el+=`<line x1="${x-s}" y1="${y}" x2="${x+s}" y2="${y}" stroke="${p[2]}" stroke-width=".6" opacity="${o}"/><line x1="${x}" y1="${y-s}" x2="${x}" y2="${y+s}" stroke="${p[2]}" stroke-width=".6" opacity="${o}"/>`; break;
+      case "cross": el+=`<line x1="${x}" y1="${y-s}" x2="${x}" y2="${y+s}" stroke="${p[2]}" stroke-width=".7" opacity="${o}"/><line x1="${x-s}" y1="${y-s*.4}" x2="${x+s}" y2="${y-s*.4}" stroke="${p[2]}" stroke-width=".7" opacity="${o}"/>`; break;
+      case "eagle": el+=`<path d="M ${x-s} ${y} Q ${x} ${y-s} ${x+s} ${y}" fill="none" stroke="${p[2]}" stroke-width=".7" opacity="${o}"/>`; break;
+      case "ladder": el+=`<line x1="${x}" y1="90" x2="${x}" y2="${y}" stroke="${p[2]}" stroke-width=".5" opacity="${o}"/>`; break;
+      case "wheel": el+=`<circle cx="${x}" cy="${y}" r="${s}" fill="none" stroke="${p[2]}" stroke-width=".5" opacity="${o}"/><circle cx="${x}" cy="${y}" r="${s*.5}" fill="none" stroke="${p[2]}" stroke-width=".5" opacity="${o}"/>`; break;
+      default: el+=`<circle cx="${x}" cy="${y}" r="${s}" fill="${p[2]}" opacity="${o}"/>`;
+    }
+  }
+  return `<svg class="motif" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+    <defs><linearGradient id="g${cant}${i}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="${p[0]}"/><stop offset="100%" stop-color="${p[1]}"/></linearGradient></defs>
+    <rect width="100" height="100" fill="url(#g${cant}${i})"/>${el}</svg>`;
+}
+
+/* ================= STATE ================= */
+const KEY="divine-comedy-journey-v1";
+let progress={ current:0, completed:[] };
+try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s && typeof s.current==="number") progress=s; }catch(e){}
+function save(){ try{ localStorage.setItem(KEY,JSON.stringify(progress)); }catch(e){} }
+const FLAT=[];
+CANTICLES.forEach(c=>c.levels.forEach((l,li)=>FLAT.push({canticle:c.id, canticleTitle:c.title, cls:c.cls, i:FLAT.length, ...l})));
+function updateProgressUI(){
+  const done=new Set(progress.completed);
+  document.getElementById("progressFill").style.width=(done.size/FLAT.length*100)+"%";
+  document.getElementById("progressLabel").textContent=done.size+" of "+FLAT.length+" realms";
+}
+
+/* ================= RENDER ================= */
+const app=document.getElementById("app");
+let tab="home";
+
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function levelCard(l){
+  const done=progress.completed.includes(l.i);
+  const here=progress.current===l.i;
+  return `<div class="lvl ${l.i>progress.current+0 && !done ? "locked":""}" data-lvl="${l.i}">
+    ${done?"<span class='done-badge'>✓</span>":""}${here?"<span class='here-badge'>You are here</span>":""}
+    <div class="strip">${motifSVG(l.motif,l.canticle,l.i)}</div>
+    <div class="txt"><div class="num">${l.canticleTitle} · ${l.epithet}</div><div class="name">${esc(l.name)}</div></div>
+  </div>`;
+}
+function renderHome(){
+  const started=progress.completed.length>0 || progress.current>0;
+  app.innerHTML=`
+  <section class="hero">
+    <div class="bg">${motifSVG("stars","paradiso",1)}</div>
+    <div class="inner">
+      <h1>Journey Through the<br/>Divine Comedy</h1>
+      <p class="sub">A pilgrimage with Dante and Beatrice through Inferno, Purgatorio, and Paradiso, illustrated with Gustave Doré's engravings and scored with Liszt's Dante Symphony.</p>
+      <div class="home-actions">
+        <button class="btn primary" id="beginBtn">${started?"Continue the Journey":"Begin the Journey"}</button>
+        <button class="btn" data-tab="journey">The Journey Map</button>
+      </div>
+    </div>
+  </section>
+  <p class="epigraph">"Midway upon the journey of our life / I found myself within a forest dark…"<span class="attr">Dante, Inferno I, translated by Henry Wadsworth Longfellow</span></p>
+  ${started?`<p style="text-align:center;font-size:.85rem;color:#a9966f">Your progress is saved on this device. <a href="#" id="resetLink">Start over</a></p>`:""}
+  <div class="home-notes">
+    <div class="card"><h3>📖 Your progress is remembered</h3><p>Each realm you complete is saved in your browser, so you can put the poem down and take it up again exactly where you left it.</p></div>
+    <div class="card"><h3>🎨 Gustave Doré Gallery</h3><p>The great 19th-century engravings of the Comedy, plate by plate, in a dedicated gallery.</p></div>
+    <div class="card"><h3>🎼 Liszt's Dante Symphony</h3><p>Franz Liszt wrote his 'Symphony to Dante's Divine Comedy' in 1856. Listen to its Inferno and Purgatorio movements inside the app.</p></div>
+  </div>
+  <footer>
+    <p>Journey Through the Divine Comedy · adapted from Dante Alighieri's La Divina Commedia (public domain).</p>
+    <p>Engravings by Gustave Doré (1832–1883), public domain, via Wikimedia Commons. Epigraphs from Henry Wadsworth Longfellow's 1865–67 translation, public domain. Music streamed via the Internet Archive.</p>
+  </footer>`;
+  document.getElementById("beginBtn").onclick=()=>openLevel(progress.current);
+  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+  const rl=document.getElementById("resetLink");
+  if(rl) rl.onclick=(e)=>{e.preventDefault(); if(confirm("Reset your journey and begin anew?")){progress={current:0,completed:[]};save();render();}};
+}
+function renderJourney(){
+  app.innerHTML=`
+  <h2 style="font-size:1.6rem;margin-top:1rem">The Journey Map</h2>
+  <p style="color:#a9966f;font-style:italic;margin:.3rem 0 .5rem">Enter each realm in turn; the journey remembers your place. ${progress.completed.length?`You have walked through ${progress.completed.length} of ${FLAT.length} realms.`:""}</p>
+  ${CANTICLES.map(c=>`
+    <section class="canticle">
+      <h2><span class="${c.cls}">✦</span><span class="${c.cls}">${c.title}</span> <span style="font-size:.85rem;color:#a9966f">— ${c.subtitle}</span></h2>
+      <p class="c-desc">${c.desc}</p>
+      <div class="level-grid">${c.levels.map((l,li)=>levelCard(FLAT.filter(f=>f.canticle===c.id)[li])).join("")}</div>
+    </section>`).join("")}
+  <footer><p>Quotes from Dante, in Henry Wadsworth Longfellow's translation (public domain). Doré engravings via Wikimedia Commons (public domain).</p></footer>`;
+  app.querySelectorAll(".lvl").forEach(el=>el.onclick=()=>openLevel(+el.dataset.lvl));
+}
+function openLevel(i){
+  const l=FLAT[i]; if(!l) return;
+  if(i<=progress.current || progress.completed.includes(i-1) || i===0 || progress.completed.includes(i) || progress.current===i){ /* allowed */ }
+  if(i>progress.current && !progress.completed.includes(i-1) && !progress.completed.includes(i) && i>progress.current){ /* soft-lock: still allow viewing ahead? choose: block */ }
+  if(i>progress.current+0 && !progress.completed.includes(i) && i!==progress.current && !progress.completed.includes(i-1)){
+    // level not yet reachable: gently nudge
+    openLevel(progress.current); return;
+  }
+  if(i===progress.current){ progress.current=i; }
+  showTab("level",i);
+}
+function renderLevel(i){
+  const l=FLAT[i]; const prev=i>0?FLAT[i-1]:null, next=i<FLAT.length-1?FLAT[i+1]:null;
+  const done=progress.completed.includes(i);
+  const last = i===FLAT.length-1;
+  app.innerHTML=`
+  <div id="levelView">
+    <div class="crumbs">${l.canticleTitle} · Realm ${i+1} of ${FLAT.length}</div>
+    <h2>${esc(l.name)}</h2>
+    <div class="epithet">${esc(l.epithet)}</div>
+    <div class="level-art">
+      <div class="artframe">${motifSVG(l.motif,l.canticle,i)}
+        ${l.art?`<img src="${wm(l.art.file)}" alt="${esc(l.art.cap)}" onerror="this.remove()"/>
+        <div class="cap">${esc(l.art.cap)}</div>`:""}
+      </div>
+      <div>
+        <div class="level-text"><p>${esc(l.blurb)}</p></div>
+        ${l.quote?`<div class="level-quote">
+          <div class="it">${esc(l.quote.it)}</div>
+          <div class="en">“${esc(l.quote.en)}”</div>
+          <div class="attr">— ${esc(l.quote.attr)}</div>
+        </div>`:""}
+      </div>
+    </div>
+    <div class="level-nav">
+      <button class="btn" id="prevBtn">← ${prev?esc(prev.name):"The Map"}</button>
+      ${done
+        ? (next?`<button class="btn primary" id="nextBtn">Continue to ${esc(next.name)} →</button>`:`<button class="btn primary" id="finBtn">✦ Behold the Rose ✦</button>`)
+        : (last
+            ? `<button class="btn primary" id="nextBtn">Complete the Journey ✦</button>`
+            : `<button class="btn primary" id="nextBtn">Pass onward to ${next?esc(next.name):""} →</button>`)}
+    </div>
+  </div>
+  <footer><p>Engravings © public domain, Gustave Doré, via Wikimedia Commons. Translation excerpts: Henry Wadsworth Longfellow, 1865–67, public domain.</p></footer>`;
+  const pb=document.getElementById("prevBtn");
+  pb.onclick=()=>{ if(prev) openLevel(prev.i); else showTab("journey"); };
+  const nb=document.getElementById("nextBtn");
+  if(nb) nb.onclick=()=>{
+    if(!progress.completed.includes(i)) progress.completed.push(i);
+    progress.current=Math.min(i+1,FLAT.length-1);
+    if(last){ progress.completed.includes(i)||progress.completed.push(i); showFinale(); }
+    else openLevel(progress.current);
+    save(); updateProgressUI();
+  };
+  const fb=document.getElementById("finBtn");
+  if(fb) fb.onclick=showFinale;
+  if(!progress.completed.includes(i)){
+    const mark=(e)=>{ if(!progress.completed.includes(i)){progress.completed.push(i);progress.current=Math.min(i+1,FLAT.length-1);save();updateProgressUI();renderLevel(i);} };
+    nb&&nb.addEventListener("click",mark,{once:true});
+  }
+}
+function showFinale(){
+  app.innerHTML=`
+  <section class="hero" style="margin-top:1rem"><div class="bg">${motifSVG("rose","paradiso",9)}</div>
+  <div class="inner"><h1 style="color:#fffbe8">✦ The Journey is Complete ✦</h1>
+  <p class="sub" style="color:#fffbe8;font-style:italic">"…l'amor che move il sole e l'altre stelle."<br/><span style="font-size:.8rem">…the Love that moves the sun and the other stars. — Paradiso XXXIII</span></p>
+  <div class="home-actions">
+    <button class="btn" data-tab="journey">Return to the Map</button>
+    <button class="btn primary" id="againBtn">Begin Anew</button>
+  </div></div></section>`;
+  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+  document.getElementById("againBtn").onclick=()=>{ if(confirm("Reset your journey?")){progress={current:0,completed:[]};save();render();} };
+}
+function renderGallery(){
+  app.innerHTML=`
+  <h2 style="font-size:1.6rem;margin-top:1rem">Divine Comedy Art</h2>
+  <p style="color:#a9966f;font-style:italic;margin:.3rem 0">The complete engravings of the Comedy by <strong>Gustave Doré</strong> (1832–1883), first published 1861–68. Public-domain plates, via Wikimedia Commons. Click any image to view the full-resolution original.</p>
+  <div class="gallery">
+    ${GALLERY.map(g=>`<a class="gitem" href="${wm(g.file)}" target="_blank" rel="noopener">
+      <div class="imgwrap"><img src="${wm(g.file)}" alt="${esc(g.title)}" loading="lazy" onerror="this.style.opacity=0"/></div>
+      <div class="meta"><h3>${esc(g.title)}</h3><p>Gustave Doré · ${esc(g.note)}</p></div>
+    </a>`).join("")}
+  </div>
+  <footer><p>All artworks public domain (Doré died in 1883). Served from Wikimedia Commons.</p></footer>`;
+}
+function renderMusic(){
+  app.innerHTML=`
+  <h2 style="font-size:1.6rem;margin-top:1rem">The Music of the Comedy</h2>
+  <p class="music-note">Franz Liszt, galvanized by his reading of Dante, composed <em>A Symphony to Dante's Divine Comedy</em> (S.109, 1856) in two vast movements: <strong>Inferno</strong> and <strong>Purgatorio</strong>, crowned by a choral setting of the Magnificat. Press play to let the journey have its score.</p>
+  <div class="player">
+    <iframe src="${MUSIC.embed}" allow="autoplay; encrypted-media" title="Liszt, Dante Symphony (Internet Archive)"></iframe>
+    <div class="meta">${esc(MUSIC.attribution)} · <a href="${MUSIC.link}" target="_blank" rel="noopener">View on the Internet Archive</a></div>
+  </div>
+  <div class="card" style="margin-top:1rem"><h3>🎼 Listening suggestion</h3><p>Let the <em>Inferno</em> movement play while you walk the nine circles, and the <em>Purgatorio</em> movement as you climb the mountain. The choral finale makes a fitting entrance to Paradise.</p></div>
+  <footer><p>Composition by Franz Liszt (1811–1886), public domain. Performance streamed from the Internet Archive; all rights belong to their respective owners.</p></footer>`;
+}
+
+/* ================= TABS ================= */
+function showTab(t,levelIdx){
+  tab=t;
+  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("active",b.dataset.tab===t||(t==="level"&&b.dataset.tab==="journey")));
+  if(t==="home")renderHome();
+  else if(t==="journey")renderJourney();
+  else if(t==="gallery")renderGallery();
+  else if(t==="music")renderMusic();
+  else if(t==="level")renderLevel(levelIdx);
+  window.scrollTo({top:0,behavior:"instant"});
+}
+function render(){ if(tab==="level")renderLevel(progress.current); else showTab(tab); updateProgressUI(); }
+document.getElementById("brandHome").onclick=()=>showTab("home");
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+render();
+</script>
+</body>
+</html>
