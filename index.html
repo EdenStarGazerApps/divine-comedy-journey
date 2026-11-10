@@ -460,7 +460,7 @@ function renderHome(){
   ${started?`<p style="text-align:center;font-size:.85rem;color:#a9966f">Your progress is saved on this device. <a href="#" id="resetLink">Start over</a></p>`:""}
   <div class="home-notes">
     <div class="card"><h3>📖 Your progress is remembered</h3><p>Each realm you complete is saved in your browser, so you can put the poem down and take it up again exactly where you left it.</p></div>
-    <div class="card"><h3>🎨 Gustave Doré Gallery</h3><p>The great 19th-century engravings of the Comedy, plate by plate, in a dedicated gallery.</p></div>
+    <div class="card"><h3>🎨 Gustave Doré Gallery</h3><p><p>A gallery of selected engravings from Gustave Doré's illustrated Comedy.</p></div>
     <div class="card"><h3>🎼 Liszt's Dante Symphony</h3><p>Franz Liszt wrote his 'Symphony to Dante's Divine Comedy' in 1856. Listen to its Inferno and Purgatorio movements inside the app.</p></div>
   </div>
   <footer>
@@ -561,11 +561,11 @@ function showFinale(){
 function renderGallery(){
   app.innerHTML=`
   <h2 style="font-size:1.6rem;margin-top:1rem">Divine Comedy Art</h2>
-  <p style="color:#a9966f;font-style:italic;margin:.3rem 0">The complete engravings of the Comedy by <strong>Gustave Doré</strong> (1832–1883), first published 1861–68. Public-domain plates, via Wikimedia Commons. Click any image to view the full-resolution original.</p>
+  <p style="color:#a9966f;font-style:italic;margin:.3rem 0">A selection of engravings from the Comedy by <strong>Gustave Doré</strong> (1832–1883), first published 1861–68. Public-domain plates, via Wikimedia Commons. Click any image to view the full-resolution original.</p>
   <div class="gallery">
     ${GALLERY.map(g=>`<a class="gitem" href="${wm(g.file)}" target="_blank" rel="noopener">
       <div class="imgwrap"><img src="${wm(g.file)}" alt="${esc(g.title)}" loading="lazy" onerror="this.style.opacity=0"/></div>
-      <div class="meta"><h3>${esc(g.title)}</h3><p>Gustave Doré · ${esc(g.note)}</p></div>
+      <div class="meta"><h3>${esc(g.title)}</h3><p>${esc(g.note)}</p></div>
     </a>`).join("")}
   </div>
   <footer><p>All artworks public domain (Doré died in 1883). Served from Wikimedia Commons.</p></footer>`;
@@ -759,6 +759,47 @@ function showTab(t,levelIdx){
 function render(){ if(tab==="level")renderLevel(progress.current); else showTab(tab); updateProgressUI(); }
 document.getElementById("brandHome").onclick=()=>showTab("home");
 document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+
+// Italian originals, keyed by realm index (0-29).
+// 2 Limbo, 4 Gluttony (Inf), 5 Greed, 6 Wrath (Inf), 8 Violence, 9 Fraud,
+// 10 Treachery, 11 Shore, 12 Pride, 13 Envy, 14 Wrath (Purg), 15 Sloth,
+// 16 Avarice, 17 Gluttony (Purg), 19 Earthly Paradise, 22 Venus, 23 Sun,
+// 25 Jupiter, 26 Saturn, 27 Fixed Stars, 28 Primum Mobile
+const ITALIAN = {
+  2: "Ed ancor più d'onore assai mi fenno, / ch'e' sì mi fecer de la loro schiera, / sì ch'io fui sesto tra cotanto senno.",
+  4: "Voi cittadini mi chiamaste Ciacco: / per la dannosa colpa de la gola, / come tu vedi, a la pioggia mi fiacco.",
+  5: "Or puoi, figliuol, veder la corta buffa / d'i ben che son commessi a la fortuna, / per che l'umana gente si rabuffa; / ché tutto l'oro ch'è sotto la luna / e che già fu, di quest'anime stanche / non poterebbe farne posare una.",
+  6: "Qual è colui che grande inganno ascolta / che li sia fatto, e poi se ne rammarca, / fecesi Flegïàs ne l'ira accolta.",
+  8: "E quel di mezzo, ch'al petto si mira, / è il gran Chirón, il qual nodrì Achille; / quell'altro è Folo, che fu sì pien d'ira.",
+  9: "Luogo è in inferno detto Malebolge, / tutto di pietra di color ferrigno, / come la cerchia che dintorno il volge.",
+  10: "Tu dei saper ch'i' fui conte Ugolino, / e questi è l'arcivescovo Ruggieri: / or ti dirò perché i son tal vicino.",
+  11: "Per correr miglior acque alza le vele / omai la navicella del mio ingegno, / che lascia dietro a sé mar sì crudele; / e canterò di quel secondo regno / dove l'umano spirito si purga / e di salire al ciel diventa degno.",
+  12: "O superbi Cristian, miseri lassi, / che, de la vista de la mente infermi, / fidanza avete ne' retrosi passi, / non v'accorgete voi che noi siam vermi / nati a formar l'angelica farfalla, / che vola a la giustizia sanza schermi?",
+  13: "Savia non fui, avvegna che Sapìa / fossi chiamata, e fui de li altrui danni / più lieta assai che di ventura mia.",
+  14: "Frate, lo mondo è cieco, e tu vien ben da lui. / … / Se così fosse, in voi fora distrutto / libero arbitrio, e non fora giustizia / per ben letizia, e per male aver lutto.",
+  15: "L'anima, ch'è creata ad amar presta, / ad ogne cosa è mobile che piace, / tosto che dal piacere in atto è desta.",
+  16: "«Io son», cantava, «io son dolce serena, / che' marinari in mezzo mar dismago; / tanto son di piacere a sentir piena. / Io volsi Ulisse del suo cammin vago…",
+  17: "«Deh, non contendere a l'asciutta scabbia / che mi scolora», pregava, «la pelle, / né a difetto di carne ch'io abbia;",
+  19: "Quinci Letè; così da l'altro lato / Eünoè si chiama, e non adopra / se quinci e quindi pria non è gustato: / a tutti altri sapori esto è di sopra.",
+  22: "Da questo cielo, in cui l'ombra s'appunta / che 'l vostro mondo face, pria ch'altr'alma / del trïunfo di Cristo fu assunta.",
+  23: "Francesco e Povertà per questi amanti / prendi oramai nel mio parlar diffuso. / La lor concordia e i lor lieti sembianti, / amore e maraviglia e dolce sguardo / faceano esser cagion di pensier santi;",
+  25: "Parea dinanzi a me con l'ali aperte / la bella image che nel dolce frui / liete facevan l'anime conserte;",
+  26: "Noi sem levati al settimo splendore, / che sotto il petto del Leone ardente / raggia mo misto giù del suo valore.",
+  27: "«O sodalizio eletto a la gran cena / del benedetto Agnello, il qual vi ciba / sì, che la vostra voglia è sempre piena,",
+  28: "un punto vidi che raggiava lume / acuto sì, che 'l viso ch'elli affuoca / chiuder conviensi per lo forte acume; / e quale stella par quinci più poca, / parrebbe luna, locata con esso…"
+};
+Object.keys(ITALIAN).forEach(i => {
+  if (FLAT[i] && FLAT[i].quote) FLAT[i].quote.it = ITALIAN[i];
+});
+ 
+// Content corrections
+FLAT[13].blurb = "The envious wear haircloth cloaks, eyes sewn shut with wire, leaning on one another like the blind. Voices in the air call out examples of generosity and love: Mary at Cana, Orestes, and the command to love those who wrong you.";
+FLAT[15].blurb = "Here souls cure lukewarmness with zeal: they run ceaselessly around the terrace, shouting examples of holy haste and warning of the fate of the slow. Virgil uses the pause to explain how love, rightly or wrongly aimed, lies behind every virtue and every sin.";
+FLAT[17].blurb = "Fruit trees heavy with sweetness the souls may smell but never taste; water that falls from the rock and is never quite enough. The starved shades are almost unrecognizable, yet Dante knows his old friend Forese Donati by his voice.";
+FLAT[28].blurb = "Beyond the stars lies the pure moving heaven of crystalline light. Gazing into Beatrice's eyes, Dante sees a point of blinding light ringed by nine fiery circles, and Beatrice explains how they correspond to the nine orders of angels.";
+ 
+// The 'threshing-floor' quiz question belongs with the Fixed Stars (Paradiso XXII), not the Primum Mobile
+QUIZ[28].realm = 27;
 render();
 </script>
 </body>
