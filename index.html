@@ -800,6 +800,31 @@ FLAT[28].blurb = "Beyond the stars lies the pure moving heaven of crystalline li
  
 // The 'threshing-floor' quiz question belongs with the Fixed Stars (Paradiso XXII), not the Primum Mobile
 QUIZ[28].realm = 27;
+
+function renderMusic(){
+  const EMBED = "https://archive.org/embed/lp_liszt-a-symphony-to-dantes-divine-comedy_franz-liszt-los-angeles-philharmonic-orche?playlist=1&list_height=130";
+  app.innerHTML = `
+    <h2 style="font-size:1.6rem;margin-top:1rem">The Music of the Comedy</h2>
+    <p class="music-note">Franz Liszt, galvanized by his reading of Dante, composed <em>A Symphony to Dante's Divine Comedy</em> (S.109, 1856) in two vast movements. Press play below and choose a movement from the list; the descriptions that follow suggest where to listen as you walk the realms.</p>
+ 
+    <div class="player">
+      <iframe src="${EMBED}" title="Liszt, A Symphony to Dante's Divine Comedy, on the Internet Archive" loading="lazy" allowfullscreen style="height:230px"></iframe>
+      <div class="meta">${esc(MUSIC.attribution)} · <a href="${MUSIC.link}" target="_blank" rel="noopener">Open on the Internet Archive</a></div>
+    </div>
+ 
+    ${MUSIC.tracks.map(t => `
+      <div class="track">
+        <div class="thumb"><img src="${wm(t.img)}" alt="${esc(t.title)}" loading="lazy" onerror="this.style.opacity=0"/></div>
+        <div class="body">
+          <h3>${esc(t.title)}</h3>
+          <div class="dur">${esc(t.dur)} · Los Angeles Philharmonic Orchestra, cond. Alfred Wallenstein</div>
+          <p>${esc(t.desc)}</p>
+        </div>
+      </div>`).join("")}
+ 
+    <footer><p>Composition by Franz Liszt (1811–1886), public domain. The recording is played through the Internet Archive's embedded player; rights in the recording belong to their respective owners.</p></footer>`;
+}
+ 
 render();
 </script>
 </body>
